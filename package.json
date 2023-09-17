@@ -1,6 +1,6 @@
 {
   "name": "@elatoskinas/expo-music-metadata-reader",
-  "version": "0.1.12",
+  "version": "0.1.0",
   "description": "Audio music metadata reader",
   "main": "build/index.js",
   "types": "build/index.d.ts",
