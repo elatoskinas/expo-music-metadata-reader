@@ -3,7 +3,31 @@ package expo.modules.musicmetadatareader
 import expo.modules.kotlin.modules.Module
 import expo.modules.kotlin.modules.ModuleDefinition
 
+import android.media.MediaMetadataRetriever
+
+data class SongData(
+  val album: String
+)
+
 class ExpoMusicMetadataReaderModule : Module() {
+    private fun readSongMetadata(songUri: String): SongData {
+      val metadataRetriever = MediaMetadataRetriever()
+      metadataRetriever.setDataSource(applicationContext, songUri)
+      val album = metadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ALBUM)
+      return Song(album)
+    }
+
+    // private fun readSongCoverData(songUri: String) {
+    //     // Read & set cover image
+    //     val retriever: MediaMetadataRetriever = MediaMetadataRetriever()
+    //     retriever.setDataSource(applicationContext, songUri)
+    //     val coverBytes = retriever.embeddedPicture
+
+    //     if (coverBytes != null) {
+    //         val coverBitmap = BitmapFactory.decodeByteArray(coverBytes, 0, coverBytes.size)
+    //     }
+    // }
+
   // Each module class must implement the definition function. The definition consists of components
   // that describes the module's functionality and behavior.
   // See https://docs.expo.dev/modules/module-api for more details about available components.
@@ -13,7 +37,10 @@ class ExpoMusicMetadataReaderModule : Module() {
     // The module will be accessible from `requireNativeModule('ExpoMusicMetadataReader')` in JavaScript.
     Name("ExpoMusicMetadataReader")
 
-    // TODO: add functions/events
+    // TODO: should this be converted to async?
+    Function("readSongMetadata") { songUri: String ->
+      readSongMetadata(songUri)
+    }
 
     // // Defines event names that the module can send to JavaScript.
     // Events("onChange")

@@ -1,5 +1,9 @@
 import ExpoModulesCore
 
+struct SongData {
+  var album: String
+}
+
 public class ExpoMusicMetadataReaderModule: Module {
   // Each module class must implement the definition function. The definition consists of components
   // that describes the module's functionality and behavior.
@@ -14,6 +18,11 @@ public class ExpoMusicMetadataReaderModule: Module {
 
     // // Defines event names that the module can send to JavaScript.
     // Events("onChange")
+
+    Function("readSongMetadata") { (songUri: String) in
+      // TODO: implement Swift logic
+      return SongData(album: "TODO")
+    }
 
     // // Defines a JavaScript synchronous function that runs the native code on the JavaScript thread.
     // Function("hello") {
