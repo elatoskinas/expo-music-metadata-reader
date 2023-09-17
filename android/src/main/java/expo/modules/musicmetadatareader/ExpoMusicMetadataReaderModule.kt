@@ -4,6 +4,8 @@ import expo.modules.kotlin.modules.Module
 import expo.modules.kotlin.modules.ModuleDefinition
 
 import android.media.MediaMetadataRetriever
+import java.io.File
+import android.net.Uri
 
 data class SongData(
   val album: String
@@ -12,9 +14,9 @@ data class SongData(
 class ExpoMusicMetadataReaderModule : Module() {
     private fun readSongMetadata(songUri: String): SongData {
       val metadataRetriever = MediaMetadataRetriever()
-      metadataRetriever.setDataSource(applicationContext, songUri)
+      metadataRetriever.setDataSource(applicationContext, Uri.fromFile(File(songUri)))
       val album = metadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ALBUM)
-      return Song(album)
+      return SongData(album)
     }
 
     // private fun readSongCoverData(songUri: String) {
