@@ -1,5 +1,5 @@
 {
-  "name": "expo-music-metadata-reader",
+  "name": "@elatoskinas/expo-music-metadata-reader",
   "version": "0.1.0",
   "description": "Audio music metadata reader",
   "main": "build/index.js",
@@ -13,7 +13,8 @@
     "prepublishOnly": "expo-module prepublishOnly",
     "expo-module": "expo-module",
     "open:ios": "open -a \"Xcode\" example/ios",
-    "open:android": "open -a \"Android Studio\" example/android"
+    "open:android": "open -a \"Android Studio\" example/android",
+    "release": "npm publish"
   },
   "keywords": [
     "react-native",
