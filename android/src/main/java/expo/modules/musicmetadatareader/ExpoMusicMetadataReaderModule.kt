@@ -1,25 +1,23 @@
 package expo.modules.musicmetadatareader
-import android.content.Context
 import expo.modules.kotlin.modules.Module
 import expo.modules.kotlin.modules.ModuleDefinition
+import expo.modules.kotlin.records.Field
+import expo.modules.kotlin.records.Record
 
 import android.media.MediaMetadataRetriever
 
-import java.io.File
-import android.net.Uri
-
-data class SongData(
+data class SongData (
+  @Field
   val album: String?
-)
+) : Record
 
 class ExpoMusicMetadataReaderModule : Module() {
-  val context: Context
-    get() = appContext.reactContext ?: throw Error("App Context could not be resolved")
+  // val context: Context
+  //   get() = appContext.reactContext ?: throw Error("App Context could not be resolved")
 
   private fun readSongMetadata(songUri: String): SongData {
     val metadataRetriever = MediaMetadataRetriever()
-    // TODO: replace getApplicationContext?
-    metadataRetriever.setDataSource(context, Uri.fromFile(File(songUri)))
+    metadataRetriever.setDataSource(songUri)
     val album = metadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ALBUM)
     return SongData(album)
   }
