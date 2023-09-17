@@ -1,0 +1,9 @@
+{
+  "platforms": ["ios", "android", "web"],
+  "ios": {
+    "modules": ["ExpoMusicMetadataReaderModule"]
+  },
+  "android": {
+    "modules": ["expo.modules.musicmetadatareader.ExpoMusicMetadataReaderModule"]
+  }
+}
