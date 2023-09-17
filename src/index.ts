@@ -8,6 +8,7 @@ import { SongData } from './ExpoMusicMetadataReader.types';
 // TODO: implement functions / events
 
 export function readSongMetadata(songUri: string): SongData {
+  // TODO: convert data-types?
   return ExpoMusicMetadataReaderModule.readSongMetadata(songUri);
 }
 

@@ -8,18 +8,40 @@ import android.media.MediaMetadataRetriever
 
 data class SongData (
   @Field
-  val album: String?
+  val title: String?,
+  @Field
+  val artist: String?,
+  @Field
+  val album: String?,
+  @Field
+  val albumArtist: String?,
+  @Field
+  val trackNumber: String?,
+  @Field
+  val totalTracks: String?,
+  @Field
+  val duration: String?,
+  @Field
+  val year: String?
 ) : Record
 
 class ExpoMusicMetadataReaderModule : Module() {
-  // val context: Context
-  //   get() = appContext.reactContext ?: throw Error("App Context could not be resolved")
-
   private fun readSongMetadata(songUri: String): SongData {
     val metadataRetriever = MediaMetadataRetriever()
     metadataRetriever.setDataSource(songUri)
+
+    val title = metadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_TITLE)
+    val artist = metadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ARTIST)
     val album = metadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ALBUM)
-    return SongData(album)
+    val albumArtist = metadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ALBUMARTIST)
+    // TODO: track number / total tracks inaccurate?
+    val trackNumber = metadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_CD_TRACK_NUMBER)
+    val totalTracks = metadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_NUM_TRACKS)
+    val duration = metadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION)
+    // TODO: add date?
+    val year = metadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_YEAR)
+
+    return SongData(title, artist, album, albumArtist, trackNumber, totalTracks, duration, year)
   }
 
   // private fun readSongCoverData(songUri: String) {
@@ -46,31 +68,5 @@ class ExpoMusicMetadataReaderModule : Module() {
     Function("readSongMetadata") { songUri: String ->
       readSongMetadata(songUri)
     }
-
-    // // Defines event names that the module can send to JavaScript.
-    // Events("onChange")
-
-    // // Defines a JavaScript synchronous function that runs the native code on the JavaScript thread.
-    // Function("hello") {
-    //   "Hello world! 👋"
-    // }
-
-    // // Defines a JavaScript function that always returns a Promise and whose native code
-    // // is by default dispatched on the different thread than the JavaScript runtime runs on.
-    // AsyncFunction("setValueAsync") { value: String ->
-    //   // Send an event to JavaScript.
-    //   sendEvent("onChange", mapOf(
-    //     "value" to value
-    //   ))
-    // }
-
-    // // Enables the module to be used as a native view. Definition components that are accepted as part of
-    // // the view definition: Prop, Events.
-    // View(ExpoMusicMetadataReaderView::class) {
-    //   // Defines a setter for the `name` prop.
-    //   Prop("name") { view: ExpoMusicMetadataReaderView, prop: String ->
-    //     println(prop)
-    //   }
-    // }
   }
 }
