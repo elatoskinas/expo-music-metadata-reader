@@ -1,34 +1,39 @@
 package expo.modules.musicmetadatareader
-
+import android.content.Context
 import expo.modules.kotlin.modules.Module
 import expo.modules.kotlin.modules.ModuleDefinition
 
 import android.media.MediaMetadataRetriever
+
 import java.io.File
 import android.net.Uri
 
 data class SongData(
-  val album: String
+  val album: String?
 )
 
 class ExpoMusicMetadataReaderModule : Module() {
-    private fun readSongMetadata(songUri: String): SongData {
-      val metadataRetriever = MediaMetadataRetriever()
-      metadataRetriever.setDataSource(applicationContext, Uri.fromFile(File(songUri)))
-      val album = metadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ALBUM)
-      return SongData(album)
-    }
+  val context: Context
+    get() = appContext.reactContext ?: throw Error("App Context could not be resolved")
 
-    // private fun readSongCoverData(songUri: String) {
-    //     // Read & set cover image
-    //     val retriever: MediaMetadataRetriever = MediaMetadataRetriever()
-    //     retriever.setDataSource(applicationContext, songUri)
-    //     val coverBytes = retriever.embeddedPicture
+  private fun readSongMetadata(songUri: String): SongData {
+    val metadataRetriever = MediaMetadataRetriever()
+    // TODO: replace getApplicationContext?
+    metadataRetriever.setDataSource(context, Uri.fromFile(File(songUri)))
+    val album = metadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ALBUM)
+    return SongData(album)
+  }
 
-    //     if (coverBytes != null) {
-    //         val coverBitmap = BitmapFactory.decodeByteArray(coverBytes, 0, coverBytes.size)
-    //     }
-    // }
+  // private fun readSongCoverData(songUri: String) {
+  //     // Read & set cover image
+  //     val retriever: MediaMetadataRetriever = MediaMetadataRetriever()
+  //     retriever.setDataSource(applicationContext, songUri)
+  //     val coverBytes = retriever.embeddedPicture
+
+  //     if (coverBytes != null) {
+  //         val coverBitmap = BitmapFactory.decodeByteArray(coverBytes, 0, coverBytes.size)
+  //     }
+  // }
 
   // Each module class must implement the definition function. The definition consists of components
   // that describes the module's functionality and behavior.
