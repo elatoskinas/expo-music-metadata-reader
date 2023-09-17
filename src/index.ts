@@ -7,10 +7,14 @@ import { SongData } from './ExpoMusicMetadataReader.types';
 
 // TODO: implement functions / events
 
-export function readSongMetadata(songUri: string): SongData {
+export const readSongMetadata = (songUri: string): SongData => {
   // TODO: convert data-types?
   return ExpoMusicMetadataReaderModule.readSongMetadata(songUri);
 }
+
+export const readSongCoverData = (songUri: string): string | undefined | null => {
+  return ExpoMusicMetadataReaderModule.readSongCoverData(songUri);
+};
 
 // export async function setValueAsync(value: string) {
 //   return await ExpoMusicMetadataReaderModule.setValueAsync(value);

@@ -24,6 +24,11 @@ public class ExpoMusicMetadataReaderModule: Module {
       return SongData(album: "TODO")
     }
 
+    Function("readSongCoverData" { (songUri: String) in
+      // TODO: implement Swift logic
+      return "TODO"
+    })
+
     // // Defines a JavaScript synchronous function that runs the native code on the JavaScript thread.
     // Function("hello") {
     //   return "Hello world! 👋"

@@ -5,6 +5,7 @@ import expo.modules.kotlin.records.Field
 import expo.modules.kotlin.records.Record
 
 import android.media.MediaMetadataRetriever
+import android.util.Base64
 
 data class SongData (
   @Field
@@ -44,16 +45,13 @@ class ExpoMusicMetadataReaderModule : Module() {
     return SongData(title, artist, album, albumArtist, trackNumber, totalTracks, duration, year)
   }
 
-  // private fun readSongCoverData(songUri: String) {
-  //     // Read & set cover image
-  //     val retriever: MediaMetadataRetriever = MediaMetadataRetriever()
-  //     retriever.setDataSource(applicationContext, songUri)
-  //     val coverBytes = retriever.embeddedPicture
+  private fun readSongCoverData(songUri: String): String? {
+    val metadataRetriever = MediaMetadataRetriever()
+    metadataRetriever.setDataSource(songUri)
 
-  //     if (coverBytes != null) {
-  //         val coverBitmap = BitmapFactory.decodeByteArray(coverBytes, 0, coverBytes.size)
-  //     }
-  // }
+    val coverBytes = metadataRetriever.embeddedPicture ?: return null
+    return Base64.encodeToString(coverBytes, Base64.DEFAULT)
+  }
 
   // Each module class must implement the definition function. The definition consists of components
   // that describes the module's functionality and behavior.
@@ -64,9 +62,12 @@ class ExpoMusicMetadataReaderModule : Module() {
     // The module will be accessible from `requireNativeModule('ExpoMusicMetadataReader')` in JavaScript.
     Name("ExpoMusicMetadataReader")
 
-    // TODO: should this be converted to async?
     Function("readSongMetadata") { songUri: String ->
       readSongMetadata(songUri)
+    }
+
+    Function("readSongCoverData") { songUri: String ->
+      readSongCoverData(songUri)
     }
   }
 }
