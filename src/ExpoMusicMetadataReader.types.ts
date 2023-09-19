@@ -7,4 +7,5 @@ export type SongData = {
   totalTracks?: string;
   duration?: string;
   year?: string;
+  genre?: string;
 };

@@ -23,7 +23,9 @@ data class SongData (
   @Field
   val duration: String?,
   @Field
-  val year: String?
+  val year: String?,
+  @Field
+  val genre: String?
 ) : Record
 
 class ExpoMusicMetadataReaderModule : Module() {
@@ -41,8 +43,9 @@ class ExpoMusicMetadataReaderModule : Module() {
     val duration = metadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION)
     // TODO: add date?
     val year = metadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_YEAR)
+    val genre = metadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_GENRE)
 
-    return SongData(title, artist, album, albumArtist, trackNumber, totalTracks, duration, year)
+    return SongData(title, artist, album, albumArtist, trackNumber, totalTracks, duration, year, genre)
   }
 
   private fun readSongCoverData(songUri: String): String? {
